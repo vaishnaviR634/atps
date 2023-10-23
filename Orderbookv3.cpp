@@ -28,22 +28,22 @@ void clear(){
     freopen("output.txt", "w",stdout); // output.txt is the output file where all the stuff happens
 }
 
-int timeNumber = 0; // my own time, created by me. It increases by 1 after every bid or ask
+int64_t64_t timeNumber = 0; // my own time, created by me. It increases by 1 after every bid or ask
 
 class buyOrder{ // buyOrder class. Object of this class represents a buy order
     public:
     // string orderID;  
-    int orderQuantity; 
-    int price;
-    int timeNumber;
+    int64_t64_t orderQuantity; 
+    int64_t price;
+    int64_t timeNumber;
 };
 
 class sellOrder{ // sellOrder class. Object of this class represents a sell order
     public: 
     // string orderID;
-    int orderQuantity;
-    int price;
-    int timeNumber;
+    int64_t orderQuantity;
+    int64_t price;
+    int64_t timeNumber;
 };
 
 class fifoBuyComparator{ // comparator function for bids priority queue
@@ -107,7 +107,7 @@ void showpq(priority_queue<sellOrder, vector<sellOrder>, fifoSellComparator> p){
 priority_queue<buyOrder, vector<buyOrder>, fifoBuyComparator> bids; // declaration of the bids priority queue
 priority_queue<sellOrder, vector<sellOrder>, fifoSellComparator> asks; // declaration of the asks priority queue
 
-vector<pair<int,int>> matchedOrders; // stores the prices at which orders happened
+vector<pair<int64_t,int64_t>> matchedOrders; // stores the prices at which orders happened
 
 void showOrderBook(){ // displays currently active bids and ask prices, along with matched orders
     cout<<"Bids :"<<endl;
@@ -128,8 +128,8 @@ void matchFifo(){ // calling this function runs the Fifo matching algorithm. Thi
     if(bids.size() == 0 || asks.size() == 0){return;} // so you wont have some access error
     // The below Matching Code is for FIFO
     if(bids.top().price == asks.top().price && bids.size() != 0 && asks.size() != 0){ // checks if any order can happen, i.e. if the price of the best buy order and best sell order match
-        int quantityMatched = 0;
-        int priceMatched = asks.top().price;
+        int64_t quantityMatched = 0;
+        int64_t priceMatched = asks.top().price;
         if(asks.top().orderQuantity > bids.top().orderQuantity){
             while(asks.top().orderQuantity > bids.top().orderQuantity && asks.top().price == bids.top().price){
                 auto temp = asks.top();
@@ -194,17 +194,17 @@ void matchFifo(){ // calling this function runs the Fifo matching algorithm. Thi
     showOrderBook();
 }
 
-void makeBuyOrder(int buyingprice, int orderquantity){ // function that `places` a buy order. It pushes the buy order object into the bids priority queue
+void makeBuyOrder(int64_t buyingprice, int64_t orderquantity){ // function that `places` a buy order. It pushes the buy order object int64_to the bids priority queue
     timeNumber++; // this is so that time increases after every order
     buyOrder orderA; //buyOrder object `orderA` created for this order
     orderA.price = buyingprice; // assigning the value of buying price to the object
     orderA.timeNumber = timeNumber; // assigning the value of time to this object
     orderA.orderQuantity = orderquantity;
-    bids.push(orderA); // pushing this object into the bids priority queue
+    bids.push(orderA); // pushing this object int64_to the bids priority queue
     matchFifo();
 }
 
-void makeSellOrder(int sellingprice, int orderquantity){ // similar to the makeSellOrder function
+void makeSellOrder(int64_t sellingprice, int64_t orderquantity){ // similar to the makeSellOrder function
     timeNumber++;
     sellOrder orderA;
     orderA.price = sellingprice;
@@ -218,8 +218,8 @@ void makeSellOrder(int sellingprice, int orderquantity){ // similar to the makeS
 void parse(string s){ // parses the input from user, which is a string
     string stNum = ""; // string number
     string stQuantity = "";
-    int n = s.length(); int indx = -1;
-    for(int i = 1; i<n; i++){
+    int64_t n = s.length(); int64_t indx = -1;
+    for(int64_t i = 1; i<n; i++){
         if(tolower(s[i]) != 'q'){
             stNum.push_back(s[i]);
         }
@@ -232,11 +232,11 @@ void parse(string s){ // parses the input from user, which is a string
         stQuantity = "1";
     }
     else{
-        for(int i = indx+1; i<n; i++){
+        for(int64_t i = indx+1; i<n; i++){
             stQuantity.push_back(s[i]);
         }
     }
-    int quantity = atoi(stQuantity.c_str());
+    int64_t quantity = atoi(stQuantity.c_str());
     if(tolower(s[0]) == 'b'){
         makeBuyOrder(price, quantity);
     }
@@ -248,13 +248,13 @@ void parse(string s){ // parses the input from user, which is a string
 
 #define hi cout<<"HI"<<endl
 
-int32_t main(){
+int64_t main(){
 //--------------------
 // freopen("input.txt","r",stdin);
 freopen("output.txt","w",stdout);
 //-------------------
 // hi;
-// for (int i = 1; i<10; i++){
+// for (int64_t i = 1; i<10; i++){
 //     makeBuyOrder(i*i, i);
 // }
 // makeSellOrder(300,1);
