@@ -10,13 +10,17 @@
 using namespace std;
 // #define int long long
 
-template <typename T> void disp(vector<T> v){ // just to display a vector
+
+//for displaying a vector
+template <typename T> void disp(vector<T> v){
     for(auto thing : v){
         cout<<thing<<" ";
     }
     cout<<endl;
 }
-template <typename T, typename U> void disp(vector<pair<T,U>> v){ // just to display a vector
+
+//for displaying a vector
+template <typename T, typename U> void disp(vector<pair<T,U>> v){
     for(auto thing : v){
         cout<<thing.first<<" "<<thing.second<<endl;
     }
@@ -24,13 +28,16 @@ template <typename T, typename U> void disp(vector<pair<T,U>> v){ // just to dis
 }
 
 
+// output.txt is the output file where all the orders and matches are written
 void clear(){
-    freopen("output.txt", "w",stdout); // output.txt is the output file where all the stuff happens
+    freopen("output.txt", "w",stdout); 
 }
 
-int64_t64_t timeNumber = 0; // my own time, created by me. It increases by 1 after every bid or ask
+// time (increases by 1 after every bid or ask)
+int64_t timeNumber = 0; 
 
-class buyOrder{ // buyOrder class. Object of this class represents a buy order
+// buyOrder class: Object of this class represents a buy order
+class buyOrder{ 
     public:
     // string orderID;  
     int64_t64_t orderQuantity; 
@@ -38,7 +45,8 @@ class buyOrder{ // buyOrder class. Object of this class represents a buy order
     int64_t timeNumber;
 };
 
-class sellOrder{ // sellOrder class. Object of this class represents a sell order
+ // sellOrder class: Object of this class represents a sell order
+class sellOrder{
     public: 
     // string orderID;
     int64_t orderQuantity;
@@ -46,11 +54,13 @@ class sellOrder{ // sellOrder class. Object of this class represents a sell orde
     int64_t timeNumber;
 };
 
-class fifoBuyComparator{ // comparator function for bids priority queue
+ // comparator function for bids priority queue
+class fifoBuyComparator{
     public:
     bool operator()(buyOrder A, buyOrder B){
     if(A.price != B.price){
-        if(A.price < B.price){ //greater price, greater priority
+        //greater price, greater priority
+        if(A.price < B.price){ 
             return true;
         }
         else{
@@ -58,7 +68,8 @@ class fifoBuyComparator{ // comparator function for bids priority queue
         }
     }
     else{
-        if(A.timeNumber > B.timeNumber){ //earlier, more priority
+        if(A.timeNumber > B.timeNumber){
+             //earlier, more priority
             return true;
         }
         else{
@@ -68,11 +79,13 @@ class fifoBuyComparator{ // comparator function for bids priority queue
 }    
 };
 
-class fifoSellComparator{ // comparator funciton for asks priority queue
+ // comparator funciton for asks priority queue
+class fifoSellComparator{
     public:
     bool operator()(sellOrder A, sellOrder B){
     if(A.price != B.price){
-        if(A.price > B.price){ // lesser price, higher priority
+        if(A.price > B.price){ 
+            // lesser price, higher priority
             return true;
         }
         else{
@@ -80,7 +93,8 @@ class fifoSellComparator{ // comparator funciton for asks priority queue
         }
     }
     else{
-        if(A.timeNumber > B.timeNumber){ // earlier, higher priority
+        if(A.timeNumber > B.timeNumber){
+             // earlier, higher priority
             return true; 
         }
         else{
@@ -90,26 +104,34 @@ class fifoSellComparator{ // comparator funciton for asks priority queue
 }
 };
 
-void showpq(priority_queue<buyOrder, vector<buyOrder>, fifoBuyComparator> p){// function to display bids priority queue
+// function to display bids priority queue
+void showpq(priority_queue<buyOrder, vector<buyOrder>, fifoBuyComparator> p){
     while(p.size()){
         cout<< p.top().price <<" "<<p.top().orderQuantity<<" "<<p.top().timeNumber<<endl;
         p.pop();
     }
     
 }
-void showpq(priority_queue<sellOrder, vector<sellOrder>, fifoSellComparator> p){// overloaded function to display asks priority queue
+
+// overloaded function to display asks priority queue
+void showpq(priority_queue<sellOrder, vector<sellOrder>, fifoSellComparator> p){
     while(p.size()){
         cout<<p.top().price<<" "<<p.top().orderQuantity<<" "<<p.top().timeNumber<<endl;
         p.pop();
     }
 }
 
-priority_queue<buyOrder, vector<buyOrder>, fifoBuyComparator> bids; // declaration of the bids priority queue
-priority_queue<sellOrder, vector<sellOrder>, fifoSellComparator> asks; // declaration of the asks priority queue
+// declaration of the bids priority queue
+priority_queue<buyOrder, vector<buyOrder>, fifoBuyComparator> bids; 
+// declaration of the asks priority queue
+priority_queue<sellOrder, vector<sellOrder>, fifoSellComparator> asks; 
 
-vector<pair<int64_t,int64_t>> matchedOrders; // stores the prices at which orders happened
+// stores the prices at which orders happened
+vector<pair<int64_t,int64_t>> matchedOrders; 
 
-void showOrderBook(){ // displays currently active bids and ask prices, along with matched orders
+
+ // displays currently active bids and ask prices, along with matched orders
+void showOrderBook(){
     cout<<"Bids :"<<endl;
     if(bids.size()){showpq(bids);}
     cout<<endl;
@@ -121,13 +143,15 @@ void showOrderBook(){ // displays currently active bids and ask prices, along wi
     if(matchedOrders.size()){disp(matchedOrders);}
 }
 
-
-void matchFifo(){ // calling this function runs the Fifo matching algorithm. This function is "automatically" run when a buy order/sell order is placed
+ // calling this function runs the Fifo matching algorithm. This function is "automatically" run when a buy order/sell order is placed
+void matchFifo(){
     clear();
     showOrderBook();
-    if(bids.size() == 0 || asks.size() == 0){return;} // so you wont have some access error
+     // so you wont have some access error
+    if(bids.size() == 0 || asks.size() == 0){return;}
     // The below Matching Code is for FIFO
-    if(bids.top().price == asks.top().price && bids.size() != 0 && asks.size() != 0){ // checks if any order can happen, i.e. if the price of the best buy order and best sell order match
+    if(bids.top().price == asks.top().price && bids.size() != 0 && asks.size() != 0){
+         // checks if any order can happen, i.e. if the price of the best buy order and best sell order match
         int64_t quantityMatched = 0;
         int64_t priceMatched = asks.top().price;
         if(asks.top().orderQuantity > bids.top().orderQuantity){
@@ -194,17 +218,24 @@ void matchFifo(){ // calling this function runs the Fifo matching algorithm. Thi
     showOrderBook();
 }
 
-void makeBuyOrder(int64_t buyingprice, int64_t orderquantity){ // function that `places` a buy order. It pushes the buy order object int64_to the bids priority queue
-    timeNumber++; // this is so that time increases after every order
-    buyOrder orderA; //buyOrder object `orderA` created for this order
-    orderA.price = buyingprice; // assigning the value of buying price to the object
-    orderA.timeNumber = timeNumber; // assigning the value of time to this object
+ // function that `places` a buy order. It pushes the buy order object int64_to the bids priority queue
+void makeBuyOrder(int64_t buyingprice, int64_t orderquantity){
+     // this is so that time increases after every order
+    timeNumber++;
+    //buyOrder object `orderA` created for this order
+    buyOrder orderA; 
+    // assigning the value of buying price to the object
+    orderA.price = buyingprice; 
+    // assigning the value of time to this object
+    orderA.timeNumber = timeNumber; 
     orderA.orderQuantity = orderquantity;
-    bids.push(orderA); // pushing this object int64_to the bids priority queue
+     // pushing this object int64_to the bids priority queue
+    bids.push(orderA);
     matchFifo();
 }
 
-void makeSellOrder(int64_t sellingprice, int64_t orderquantity){ // similar to the makeSellOrder function
+// similar to the makeSellOrder function
+void makeSellOrder(int64_t sellingprice, int64_t orderquantity){ 
     timeNumber++;
     sellOrder orderA;
     orderA.price = sellingprice;
@@ -214,9 +245,10 @@ void makeSellOrder(int64_t sellingprice, int64_t orderquantity){ // similar to t
     matchFifo();
 }
 
-
-void parse(string s){ // parses the input from user, which is a string
-    string stNum = ""; // string number
+// parses the input from user, which is a string
+void parse(string s){ 
+     // string number
+    string stNum = "";
     string stQuantity = "";
     int64_t n = s.length(); int64_t indx = -1;
     for(int64_t i = 1; i<n; i++){
