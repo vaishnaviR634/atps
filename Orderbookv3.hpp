@@ -1,3 +1,19 @@
+//===-- ATP-SERVER/Orderbookv3.hpp --===//
+//
+// Part of the ATP-SERVER Project
+//===-----------------------------===//
+///
+/// \file
+/// This file contains the declarations
+/// of the buyOrder and sellOrder class
+/// and the priority queues bids,asks and 
+/// vector matchedOrder
+/// \brief
+/// Follows a FIFO exchang
+///Takes string as input and parses it into order format
+/// Stops when input string is 'stop'
+//===-----------------------------===//
+
 #include <iostream>
 #include <algorithm>
 #include <vector>
@@ -10,6 +26,16 @@
 #include <chrono> 
 using namespace std;
 #define int long long
+
+/// global scope typedef for maintaining timepoints
+typedef std::chrono::time_point<std::chrono::system_clock> t_point;
+
+/// Sets global timestamp to 0;
+void Start_Clock();
+
+/// Returns the current time since the clock was started.
+t_point Get_Time();
+
 
 template <typename T> void disp(vector<T> v){
     for(auto thing : v){
@@ -32,7 +58,8 @@ void clear(){
 
 
 // time (increases by 1 after every bid or ask)
-int64_t timeNumber = 0; 
+// int64_t timeNumber = 0; 
+
 
 // buyOrder class: Object of this class represents a buy order
 class buyOrder{ 
@@ -56,7 +83,6 @@ priority_queue<buyOrder, vector<buyOrder>, fifoBuyComparator> bids;
 
 priority_queue<sellOrder, vector<sellOrder>, fifoSellComparator> asks; 
 
-// stores the prices at which orders happened
 vector<pair<int64_t,int64_t>> matchedOrders; 
 
 
@@ -91,20 +117,18 @@ void showOrderBook(){
 
  // function that `places` a buy order. It pushes the buy order object int64_to the bids priority queue
 void makeBuyOrder(int64_t buyingprice, int64_t orderquantity){
-    timeNumber++;
     buyOrder orderA; 
     orderA.price = buyingprice; 
-    orderA.timeNumber = timeNumber; 
+    orderA.timeNumber = t_point; 
     orderA.orderQuantity = orderquantity;
     bids.push(orderA);
     matchFifo();
 }
 
 void makeSellOrder(int64_t sellingprice, int64_t orderquantity){ 
-    timeNumber++;
     sellOrder orderA;
     orderA.price = sellingprice;
-    orderA.timeNumber = timeNumber;
+    orderA.timeNumber = t_point
     orderA.orderQuantity = orderquantity;
     asks.push(orderA);
     matchFifo();
