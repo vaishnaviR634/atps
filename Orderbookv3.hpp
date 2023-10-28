@@ -14,7 +14,6 @@
 /// Stops when input string is 'stop'
 //===-----------------------------===//
 
-#include <iostream>
 #include <algorithm>
 #include <vector>
 #include <cmath>
