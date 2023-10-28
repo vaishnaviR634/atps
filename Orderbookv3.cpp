@@ -2,7 +2,6 @@
 #include <fstream>
 #include <iostream>
 
-
  // comparator function for bids priority queue
 class fifoBuyComparator{
     public:
