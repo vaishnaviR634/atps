@@ -133,54 +133,49 @@ void matchFifo(){
 
 
 
-#define hi cout<<"HI"<<endl
 
-int64_t main(){
-//--------------------
-// freopen("input.txt","r",stdin);
-freopen("output.txt","w",stdout);
-//-------------------
-// hi;
-// for (int64_t i = 1; i<10; i++){
-//     makeBuyOrder(i*i, i);
-// }
-// makeSellOrder(300,1);
-// makeSellOrder(100,20);
-// // makeSellOrder(81, 9);
+// int64_t main(){
+// //--------------------
+// // freopen("input.txt","r",stdin);
+// freopen("output.txt","w",stdout);
+// //-------------------
+// // for (int64_t i = 1; i<10; i++){
+// //     makeBuyOrder(i*i, i);
+// // }
+// // makeSellOrder(300,1);
+// // makeSellOrder(100,20);
+// // // makeSellOrder(81, 9);
+// // // makeBuyOrder(100, 10);
+// // makeSellOrder(81, 2);
+// // makeBuyOrder(100,11);
 // // makeBuyOrder(100, 10);
-// makeSellOrder(81, 2);
-// makeBuyOrder(100,11);
-// makeBuyOrder(100, 10);
-// makeSellOrder(100, 12);
+// // makeSellOrder(100, 12);
 
-// makeBuyOrder(100,30);
-// makeSellOrder(100,10);
+// // makeBuyOrder(100,30);
+// // makeSellOrder(100,10);
 
 
-// showOrderBook();
+// // showOrderBook();
 
-while(true){
-    string s; cin>>s;
-    if(s == "stop"){
-       clear();
-       cout<<"Stopped"; 
-       break;
-    }
-    else{
-        if(tolower(s[0]) == 'b'){
-            parse(s);
-        }
-        else if(tolower(s[0]) == 's'){
-            parse(s);
-        }
-        else{
-            clear();
-            cout<<"Invalid input, try again\n";
-        }
-    }
-}
-
-
-
-return 0;
-}
+// while(true){
+//     string s; cin>>s;
+//     if(s == "stop"){
+//        clear();
+//        cout<<"Stopped"; 
+//        break;
+//     }
+//     else{
+//         if(tolower(s[0]) == 'b'){
+//             parse(s);
+//         }
+//         else if(tolower(s[0]) == 's'){
+//             parse(s);
+//         }
+//         else{
+//             clear();
+//             cout<<"Invalid input, try again\n";
+//         }
+//     }
+// }
+// return 0;
+// }
