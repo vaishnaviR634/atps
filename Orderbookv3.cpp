@@ -60,7 +60,7 @@ void matchFifo(){
     clear();
     showOrderBook();
      // so you wont have some access error
-    if(bids.size() == 0 || asks.size() == 0){return;}
+    if(bids.empty() || asks.empty()){return;}
     // The below Matching Code is for FIFO
     if(bids.top().price == asks.top().price && bids.size() != 0 && asks.size() != 0){
          // checks if any order can happen, i.e. if the price of the best buy order and best sell order match
@@ -73,7 +73,7 @@ void matchFifo(){
                 asks.pop();
                 bids.pop();
                 asks.push(temp);
-                if(bids.size() == 0 || asks.size() == 0){break;}
+                if(bids.empty() || asks.empty()){break;}
             }
             if(bids.size() != 0 && asks.size() != 0){
                 if(bids.top().orderQuantity > asks.top().orderQuantity && asks.top().price == bids.top().price){
